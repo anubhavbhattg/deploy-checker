@@ -29,8 +29,8 @@ This project is a **Node.js application** deployed on an **Amazon Linux EC2 inst
 
 ```sh
 cd /var/www/
-git clone https://github.com/your-username/my-auto-deploy.git
-cd my-auto-deploy
+git clone https://github.com/your-username/deploy-checker.git
+cd deploy-checker
 npm install
 ```
 
@@ -54,6 +54,14 @@ pm2 startup
    tar xzf actions-runner-linux-x64.tar.gz
    ./config.sh --url https://github.com/your-username/my-auto-deploy --token YOUR_GITHUB_TOKEN
    ./run.sh
+
+   # To make the runner start automatically on reboot and run in the background, run:
+   sudo ./svc.sh install
+   sudo ./svc.sh start
+
+   #To make the runner start automatically on reboot and run in the background, run:
+   sudo ./svc.sh status
+
    ```
 
 ### 5️⃣ **Set Up GitHub Actions Workflow**
@@ -89,7 +97,7 @@ jobs:
       - name: Restart PM2 Application
         run: |
           cd /var/www/my-auto-deploy
-          pm2 restart index || pm2 start index.js --name index
+          pm2 restart index || pm2 start index.js --name index --watch
 ```
 
 ### 6️⃣ **Push Workflow to GitHub**
